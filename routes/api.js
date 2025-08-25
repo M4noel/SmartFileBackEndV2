@@ -18,7 +18,7 @@ import compressImage from '../utils/imageCompressor.js';
 import QRCode from 'qrcode';
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
-import pkg from 'node-qpdf';
+// import pkg from 'node-qpdf';
 const { decrypt } = pkg;
 export default function router(upload) {
   const router = express.Router();
