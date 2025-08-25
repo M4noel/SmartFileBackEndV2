@@ -5,15 +5,25 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
 
-// Add the bin directory to PATH for qpdf
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Definir separador de PATH correto para Windows/Linux
+const pathSeparator = process.platform === 'win32' ? ';' : ':';
+
+// Adicionar o diretório bin ao PATH se existir
 const binPath = path.join(__dirname, '..', 'bin');
-process.env.PATH = `${binPath};${process.env.PATH}`;
+if (fs.existsSync(binPath)) {
+  process.env.PATH = `${binPath}${pathSeparator}${process.env.PATH}`;
+  console.log(`Bin path added to PATH: ${binPath}`);
+} else {
+  console.warn(`Bin path not found: ${binPath}`);
+}
 
 import apiRoutes from './routes/api.js';
 
@@ -31,7 +41,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: {
-    fileSize: 50 * 1024 * 1024 // 50 MB limit
+    fileSize: 50 * 1024 * 1024 // 50 MB
   }
 });
 
@@ -42,6 +52,6 @@ app.use('/api', router);
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-  console.log(`qpdf binary path added to PATH: ${binPath}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Plataforma detectada: ${process.platform}`);
 });
