@@ -1,7 +1,7 @@
 import { PDFDocument, rgb, StandardFonts, degrees, PDFName, PDFDict, PDFHexString } from 'pdf-lib';
 import { createCanvas, loadImage } from 'canvas';
 import Tesseract from 'tesseract.js';
-// import pdfPoppler from 'pdf-poppler';
+import pdfPoppler from 'pdf-poppler';
 const { PdfConverter } = pdfPoppler;
 import path from 'path';
 import { fileURLToPath } from 'url';
